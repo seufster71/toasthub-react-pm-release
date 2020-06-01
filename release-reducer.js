@@ -15,7 +15,7 @@
  */
 import reducerUtils from '../../core/common/reducer-utils';
 
-export default function usersReducer(state = {}, action) {
+export default function releaseReducer(state = {}, action) {
 	let myState = {};
 	switch(action.type) {
 		case 'LOAD_INIT_PM_RELEASE': {
