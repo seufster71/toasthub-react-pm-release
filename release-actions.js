@@ -162,7 +162,7 @@ export function deleteItem({state,id}) {
 }
 
 
-export function modifyItem(id) {
+export function modifyItem({id,appPrefs}) {
 	return function(dispatch) {
 	    let requestParams = {};
 	    requestParams.action = "ITEM";
@@ -177,7 +177,7 @@ export function modifyItem(id) {
 
 	    return callService(params).then( (responseJson) => {
 	    	if (responseJson != null && responseJson.protocalError == null){
-	    		dispatch({ type: 'PM_RELEASE_ITEM',responseJson});
+	    		dispatch({ type: 'PM_RELEASE_ITEM',responseJson,appPrefs});
 	    	} else {
 	    		actionUtils.checkConnectivity(responseJson,dispatch);
 	    	}
