@@ -21,13 +21,23 @@ import actionUtils from '../../core/common/action-utils';
 
 
 // thunks
-export function init() {
+export function init({parent,parentType}) {
   return function(dispatch) {
     let requestParams = {};
     requestParams.action = "INIT";
     requestParams.service = "PM_RELEASE_SVC";
     requestParams.prefTextKeys = new Array("PM_RELEASE_PAGE");
     requestParams.prefLabelKeys = new Array("PM_RELEASE_PAGE");
+    if (parent != null) {
+    	if (parentType != null && parentType === "PRODUCT") {
+    		requestParams.productId = parent.id;
+    	} else if (parentType != null && parentType === "PROJECT") {
+    		requestParams.projectId = parent.id;
+    	}
+		dispatch({type:"PM_RELEASE_ADD_PARENT", parent, parentType});
+	} else {
+		dispatch({type:"PM_RELEASE_CLEAR_PARENT"});
+	}
     let params = {};
     params.requestParams = requestParams;
     params.URI = '/api/member/callService';
@@ -69,6 +79,11 @@ export function list({state,listStart,listLimit,searchCriteria,orderCriteria,inf
 			requestParams.orderCriteria = orderCriteria;
 		} else {
 			requestParams.orderCriteria = state.orderCriteria;
+		}
+		if (state.parent != null && state.parentType != null && state.parentType === "PRODUCT") {
+			requestParams.productId = state.parent.id;
+		} else if (state.parent != null && state.parentType != null && state.parentType === "PROJECT") {
+			requestParams.projectId = state.parent.id;
 		}
 		let userPrefChange = {"page":"users","orderCriteria":requestParams.orderCriteria,"listStart":requestParams.listStart,"listLimit":requestParams.listLimit};
 		dispatch({type:"PM_RELEASE_PREF_CHANGE", userPrefChange});
@@ -112,7 +127,11 @@ export function saveItem({state}) {
 	    requestParams.action = "SAVE";
 	    requestParams.service = "PM_RELEASE_SVC";
 	    requestParams.inputFields = state.inputFields;
-
+	    if (state.parent != null && state.parentType != null && state.parentType === "PRODUCT") {
+			requestParams.productId = state.parent.id;
+		} else if (state.parent != null && state.parentType != null && state.parentType === "PROJECT") {
+			requestParams.projectId = state.parent.id;
+		}
 	    let params = {};
 	    params.requestParams = requestParams;
 	    params.URI = '/api/member/callService';
