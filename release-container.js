@@ -76,7 +76,7 @@ class PMReleaseContainer extends Component {
 	onSearchChange = (fieldName, event) => {
 			if (event.type === 'keypress') {
 				if (event.key === 'Enter') {
-					this.searchClick(fieldName,event);
+					this.onSearchClick(fieldName,event);
 				}
 			} else {
 				if (this.props.codeType === 'NATIVE') {
