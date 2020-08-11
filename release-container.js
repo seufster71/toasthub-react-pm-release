@@ -189,6 +189,10 @@ class PMReleaseContainer extends Component {
 				this.props.history.push({pathname:'/pm-enhancement',state:{parent:item,parentType:"RELEASE"}});
 				break;
 			}
+			case 'SHARE': {
+				this.props.history.push({pathname:'/pm-team',state:{parent:item,parentType:"RELEASE"}});
+				break;
+			}
 		}
 	}
 	
@@ -201,14 +205,8 @@ class PMReleaseContainer extends Component {
 		this.props.actions.list({state:this.props.pmrelease});
 	}
 	
-	inputChange = (fieldName,switchValue, event) => {
-		let value = "";
-		if (switchValue === "DATE") {
-			value = event.toISOString();
-		} else {
-			value = switchValue;
-		}
-		utils.inputChange(this.props,fieldName,value);
+	inputChange = (type,field,value,event) => {
+		utils.inputChange({type,props:this.props,field,value,event});
 	}
 	
 	onBlur = (field) => {
